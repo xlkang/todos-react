@@ -2,38 +2,35 @@ import React, { Component } from 'react';
 import { Checkbox,Button } from 'antd';
 import './Todo.css';
 
-class Todo extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      editValue: props.todo.value,
-      isVisible: false,
-      isEdit: false,
-    }
+export default class Todo extends Component {
+  state = {
+    editValue: this.props.todo.value,
+    isVisible: false,
+    isEdit: false,
   }
 
   handleChange = (e) => {
-    this.props.onSelect(e.target.checked);
+    this.props.selectTodo(e.target.checked, this.props.todo.id)
   }
 
   handleClick = (e) => {
-      this.props.onRemove();
+    this.props.removeTodo(this.props.todo.id)
   }
 
   handleInputChange = (e) => {
     this.setState({
       editValue:e.target.value
-    });
+    })
   }
 
   handleBlur = (e) => {
     this.setState({
       isEdit:false
-    });
+    })
     if(!this.state.editValue.trim()){
-      this.props.onRemove();
+      this.props.removeTodo(this.props.todo.id)
     }else{
-      this.props.onChangeVal(this.state.editValue);
+      this.props.changeTodoVal(this.state.editValue, this.props.todo.id)
     }
   }
 
@@ -42,41 +39,41 @@ class Todo extends Component {
       case 'Enter':
         this.setState({
           isEdit:false
-        },() => this.props.onChangeVal(this.state.editValue));
-        break;
+        }, () => this.props.changeTodoVal(this.state.editValue, this.props.todo.id))
+        break
       case 'Escape':
         this.setState({
           isEdit:false,
           editValue:this.props.todo.value
-        });
-        break;
+        })
+        break
       default:
-        break;
+        break
     }
   }
 
   handleDbClick = (e) => {
     this.setState({
       isEdit:true
-    },()=>this.inputTodo.focus());
+    },()=>this.inputTodo.focus())
   }
 
   handleMouseOver = (e) => {
     this.setState({
       isVisible:true
-    });
+    })
   }
 
   handleMouseOut = (e) => {
     this.setState({
       isVisible:false
-    });
+    })
   }
 
   render() {
-    const { isEdit, isVisible, editValue } = this.state;
-    const { todo } = this.props;
-    const { id, value, checked } = todo;
+    const { isEdit, isVisible, editValue } = this.state
+    const { todo } = this.props
+    const { id, value, checked } = todo
 
     return (
       <div
@@ -94,18 +91,26 @@ class Todo extends Component {
           ref={input => this.inputTodo = input}
           />
         <div className={isEdit ? 'hide' : ''}>
-          <Checkbox checked={checked} onChange={this.handleChange} value={id}></Checkbox>
+          <Checkbox
+            checked={checked}
+            onChange={this.handleChange}
+            value={id}
+            />
           <label
             className={checked ? 'todo_label todo_checked' : 'todo_label'}
             onDoubleClick = {this.handleDbClick}
             >
             {value}
           </label>
-          <Button className={isVisible ? 'todo_close' : 'todo_close hide'} icon="close" shape="circle" size="default" onClick={this.handleClick}/>
+          <Button
+            className={isVisible ? 'todo_close' : 'todo_close hide'}
+            icon="close"
+            shape="circle"
+            size="default"
+            onClick={this.handleClick}
+            />
         </div>
       </div>
-    );
+    )
   }
 }
-
-export default Todo;

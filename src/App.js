@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import { Checkbox } from 'antd';
-import './App.css';
-import Todo from './component/Todo/Todo';
-import Operator from './component/Operator/Operator';
-import store from './redux/store';
-import * as Actions from './redux/action';
+import React, { Component } from 'react'
+import { Checkbox } from 'antd'
+import './App.css'
+import Todo from './component/Todo/Todo'
+import Operator from './component/Operator/Operator'
+import Header from './component/Header/Header'
+import * as Actions from './redux/action'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 const filterType = {
   'active': 1,
@@ -12,108 +14,36 @@ const filterType = {
   'all': 3,
 }
 
-class TodoItem {
-  constructor(value) {
-    let timestamp = new Date().getTime().toString();
-
-    this.id = timestamp;
-    this.value = value;
-    this.checked = false;
-  }
-}
-
-
-
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inputVal: '',
-      type: store.getState().type,
-      todos: store.getState().todos,
-    }
-  }
-
-  componentDidMount = () => {
-    store.subscribe(this.saveState);
-  }
-
-  saveState = () => {
-    const newState = store.getState()
-    this.setState(newState)
-    localStorage.setItem('saveState', JSON.stringify(newState))
-  }
-
-  handleInputTodos = (e) => {
-    this.setState({
-      inputVal: e.target.value
-    });
-  }
-
-
-
   //全选
   handleCheckAll=(e)=>{
-    store.dispatch(Actions.checkAll(e.target.checked));
-  }
-
-  //Operator操作
-  handleClearCompleted = () => {
-    store.dispatch(Actions.clearCompleted());
-  }
-
-  handleFilter = (type) => {
-    store.dispatch(Actions.filter(type));
-  }
-
-  //Todo操作
-  handleChangeTodoVal = (val, id) => {
-    store.dispatch(Actions.changeTodoVal(val,id));
-  }
-
-  handleRemove = (id) => {
-    store.dispatch(Actions.removeTodo(id));
-  }
-
-  handleSelect = (checked, id) => {
-    store.dispatch(Actions.selectTodo(checked, id));
-  }
-
-  //输入框回车事件监听
-  handleKeyPress = (e) => {
-    let todo = new TodoItem(this.state.inputVal);
-
-    if(e.key === 'Enter'){
-      if(this.state.inputVal.trim()){
-        store.dispatch(Actions.addTodo(todo));
-      }
-    }
+    this.props.actions.checkAll(e.target.checked)
   }
 
   renderTodoList =()=> {
-    const { type, todos } = this.state;
-    let renderData = [];
+    const { type, todos } = this.props
+    let renderData = []
 
     switch (type) {
       case filterType.active:
-        renderData = todos.filter((todo) => {return !todo.checked});
-        break;
+        renderData = todos.filter((todo) => {return !todo.checked})
+        break
       case filterType.completed:
-        renderData = todos.filter((todo) => {return todo.checked});
-        break;
+        renderData = todos.filter((todo) => {return todo.checked})
+        break
       case filterType.all:
-        renderData = todos;
-        break;
+        renderData = todos
+        break
       default:
-        renderData = todos;
-        break;
+        renderData = todos
+        break
     }
 
     return (
       <div className="todo_list">
         <Checkbox
           className={todos.length ? 'toggle_all' : 'toggle_all hide'}
-          checked={!this.state.todos.some(todo => !todo.checked)}
+          checked={!todos.some(todo => !todo.checked)}
           onChange={this.handleCheckAll}
           />
         {
@@ -122,9 +52,7 @@ class App extends Component {
               <Todo
                 key={todo.id}
                 todo={todo}
-                onSelect={ checked => this.handleSelect(checked, todo.id)}
-                onRemove={() => this.handleRemove(todo.id)}
-                onChangeVal={val => this.handleChangeTodoVal(val, todo.id)}
+                {...this.props.actions}
                 />
             )
           })
@@ -134,25 +62,18 @@ class App extends Component {
   }
 
   render() {
-    const { inputVal, type, todos } = this.state;
-
+    const { type,todos } = this.props
     return (
       <div className='App'>
-        <h1>todos</h1>
+        <Header
+          {...this.props.actions}
+          />
         <div className='content'>
-          <input
-            className='main_input'
-            value={inputVal}
-            placeholder=' What needs to be done?'
-            onChange={this.handleInputTodos}
-            onKeyPress={this.handleKeyPress}
-            />
           {this.renderTodoList()}
           <Operator
             type={type}
             todos={todos}
-            onClearCompleted={this.handleClearCompleted}
-            onFilter={this.handleFilter}
+            {...this.props.actions}
             />
         </div>
         <footer className='info'>
@@ -160,8 +81,24 @@ class App extends Component {
           <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
         </footer>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    type: state.type,
+    todos: state.todos
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch)
+})
+
+const AppContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+
+export default AppContainer
