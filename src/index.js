@@ -5,7 +5,7 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './redux/reducer';
+import reducer from './redux/reducer'
 
 const filterType = {
   'active': 1,
@@ -13,14 +13,17 @@ const filterType = {
   'all': 3,
 }
 
-const data = JSON.parse(localStorage.getItem('saveState')) || {};
+const data = JSON.parse(localStorage.getItem('saveState')) || {}
 
 let initValues = {
   type: data.type || filterType.all,
   todos: data.todos || [],
-};
+}
 
 const store = createStore(reducer, initValues)
+
+store.subscribe(()=>localStorage.setItem('saveState', JSON.stringify(store.getState())))
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
