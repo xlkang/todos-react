@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './Header.css';
+import * as Actions from '../../redux/action'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 class TodoItem {
   constructor(value) {
@@ -11,7 +14,7 @@ class TodoItem {
   }
 }
 
-export default class Header extends Component {
+class Header extends Component {
   state = {
     value:''
   }
@@ -26,7 +29,7 @@ export default class Header extends Component {
 
     if (e.key === 'Enter') {
       if (this.state.value.trim()) {
-        this.props.addTodo(todo)
+        this.props.actions.addTodo(todo)
         this.setState({
           value: ''
         })
@@ -49,3 +52,14 @@ export default class Header extends Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch)
+})
+
+const HeaderContainer = connect(
+  null,
+  mapDispatchToProps
+)(Header)
+
+export default HeaderContainer

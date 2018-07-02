@@ -2,17 +2,18 @@
 
 .operator{
   text-align: left;
-  margin:auto;
-  padding:10px 10px 10px 15px;
-  width:100%;
-  font-size:14px;
+  margin: auto;
+  padding: 10px 10px 10px 15px;
+  width: 100%;
+  font-size: 14px;
   height: 45px;
   border: 1px solid #d9d9d9;
   border: none;
+  background: #ffffff;
 }
 
 .clear_button{
-  margin-left:80px;
+  margin-left:80px
 }
 
 

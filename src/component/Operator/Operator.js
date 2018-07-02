@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Radio,Button } from 'antd';
 import './Operator.css';
+import * as Actions from '../../redux/action'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 const filterType =  {
   'active':1,
@@ -10,9 +13,9 @@ const filterType =  {
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 
-export default class Operator extends Component {
+class Operator extends Component {
   render() {
-    const { type, todos, clearCompleted, filter  } = this.props
+    const { type, todos, actions } = this.props
     const allNum = todos.length
     const activeNum = todos.filter(todo => !todo.checked).length
     const completedNum = allNum - activeNum
@@ -23,7 +26,7 @@ export default class Operator extends Component {
         <span className='mr_80'>{activeNum > 1 ? `${activeNum} items left` : `${activeNum} item left`}</span>
         <RadioGroup
           className='mr_80'
-          onChange={(e)=>filter(e.target.value)}
+          onChange={(e) => actions.filter(e.target.value)}
           defaultValue={type ? type : filterType.all}
           size='small'>
           <RadioButton value={filterType.all}>All</RadioButton>
@@ -33,10 +36,28 @@ export default class Operator extends Component {
         <Button
           className={completedNum ? '' : 'hide'}
           size='small'
-          onClick={clearCompleted}>
+          onClick={actions.clearCompleted}>
           Clear completed
         </Button>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    type: state.type,
+    todos: state.todos
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Actions, dispatch)
+})
+
+const OperatorContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Operator)
+
+export default OperatorContainer
