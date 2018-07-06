@@ -37,7 +37,7 @@ class TodoList extends Component {
     }
 
     return (
-      <div className="todo_list">
+      <div className="TodoList">
         <Checkbox
           className={todos.length ? 'toggle_all' : 'toggle_all hide'}
           checked={!todos.some(todo => !todo.checked)}

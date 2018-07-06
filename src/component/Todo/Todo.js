@@ -77,7 +77,7 @@ export default class Todo extends Component {
 
     return (
       <div
-        className="todo_wrapper"
+        className="Todo"
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}
         >

@@ -39,7 +39,7 @@ class Header extends Component {
 
   render() {
     return (
-      <header className="header">
+      <header className="Header">
         <h1>todos</h1>
         <input
           className='main_input'

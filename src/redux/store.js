@@ -10,6 +10,8 @@ const filterType = {
 const data = JSON.parse(localStorage.getItem('saveState')) || {};
 
 let initValues = {
+  pending:true,
+  logged:false,
   type: data.type || filterType.all,
   todos: data.todos || [],
 };

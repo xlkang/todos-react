@@ -21,7 +21,7 @@ class Operator extends Component {
     const completedNum = allNum - activeNum
     return (
       <div
-        className={allNum ? 'operator' : 'operator hide'}
+        className={allNum ? 'Operator' : 'Operator hide'}
       >
         <span className='mr_80'>{activeNum > 1 ? `${activeNum} items left` : `${activeNum} item left`}</span>
         <RadioGroup

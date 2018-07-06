@@ -42,6 +42,15 @@ const todo =  (state, action) => {
           return todo
         }),
       })
+    case actionType.SET_LOGGED_USER:
+      return Object.assign({}, state, {
+        pending: false,
+        logged: action.logged
+      })
+    case actionType.GET_LOGGED_USER:
+      return Object.assign({}, state, {
+        pending: false
+      })
     default:
       return state
   }

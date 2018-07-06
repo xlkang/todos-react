@@ -1,8 +1,7 @@
 @import '~antd/dist/antd.css';
 
-.todo_wrapper {
+.Todo {
   text-align: left;
-  width:100%;
   margin:auto;
   height: 58px;
   border:none;
@@ -10,6 +9,8 @@
   padding-left:15px;
   font-size: 20px;
   font-weight: 300;
+  width: 550px;
+  background: #ffffff;
 }
 
 .todo_label{

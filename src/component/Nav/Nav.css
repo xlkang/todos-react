@@ -1,0 +1,32 @@
+@import '~antd/dist/antd.css';
+
+.Nav{
+  float: left;
+  width: 200px;
+  height: 100%;
+  background: rgb(80, 73, 73)
+}
+
+.nav_link{
+  display: block;
+  width: 200px;
+  height: 40px;
+  border: 1px solid #CCC;
+  background: #FFF;
+  margin:20px auto;
+  line-height: 2.5;
+  color: #000000
+}
+
+.nav_link:hover{
+  background: #000000;
+  color: #ffffff
+}
+
+.nav_link:focus{
+  background: #000000;
+  color: #ffffff;
+  text-decoration: none
+}
+
+

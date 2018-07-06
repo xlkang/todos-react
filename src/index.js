@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './redux/reducer'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const filterType = {
   'active': 1,
@@ -26,7 +27,9 @@ store.subscribe(()=>localStorage.setItem('saveState', JSON.stringify(store.getSt
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Route path="/" component={App} />
+    </Router>
   </Provider>,
 document.getElementById('root'))
 registerServiceWorker()

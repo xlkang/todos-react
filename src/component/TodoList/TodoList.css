@@ -1,5 +1,11 @@
 @import '~antd/dist/antd.css';
 
-.todo_list{
-  background: #ffffff;
+.TodoList{
+}
+
+.toggle_all{
+  position: relative;
+  top: -40px;
+  left: -255px;
+  width:10px;
 }

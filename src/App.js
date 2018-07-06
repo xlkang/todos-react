@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import './App.css'
-import Operator from './component/Operator/Operator'
-import Header from './component/Header/Header'
-import TodoList from './component/TodoList/TodoList'
-import Footer from './component/Footer/Footer'
+import Login from './login'
+import { Route, Switch } from 'react-router-dom'
+import Main from './main'
 
 export default class App extends Component {
   render() {
     return (
       <div className='App'>
-        <Header/>
-        <TodoList/>
-        <Operator/>
-        <Footer/>
+        <Switch>
+          <Route exact path='/' component={Login} />
+          <Route path='/main' component={Main} />
+          {/* <Redirect to='/login' /> */}
+        </Switch>
       </div>
     )
   }

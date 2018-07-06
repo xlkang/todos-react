@@ -1,0 +1,13 @@
+@import '~antd/dist/antd.css';
+
+.SecMenu{
+  width: 200px;
+  float: left;
+  height: inherit;
+  background: #000;
+}
+
+ul{
+  padding:0
+}
+
