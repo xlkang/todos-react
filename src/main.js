@@ -7,7 +7,6 @@ import Nav from './component/Nav/Nav'
 import Other from './component/Other/Other'
 
 const Main = ({ match }) => {
-  console.log(match)
   return (
     <div className='main'>
       <Nav />
